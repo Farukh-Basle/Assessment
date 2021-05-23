@@ -1,0 +1,56 @@
+Resources - List
+Get all the resources in a subscription.
+
+GET https://management.azure.com/subscriptions/{subscriptionId}/resources?api-version=2021-04-01
+
+With optional parameters:
+
+GET https://management.azure.com/subscriptions/{subscriptionId}/resources?$filter={$filter}&$expand={$expand}&$top={$top}&api-version=2021-04-01
+
+
+URI Parameters
+
+Name		In	Required	Type		Description
+
+subscriptionId	path	True		string		The ID of the target subscription.
+api-version	query	True		string		The API version to use for this operation.
+$expand	query				string		Comma-separated list of additional properties to be included in 
+							the response. Valid values include createdTime, changedTime and provisioningState. 
+							For example, $expand=createdTime,changedTime.
+
+
+$filter		query			string		The filter to apply on the operation.
+
+							The properties you can use for eq (equals) or ne (not equals) are: 
+							location, resourceType, name, resourceGroup, identity, identity/principalId, plan, plan/publisher, 
+							plan/product, plan/name, plan/version, and plan/promotionCode.
+
+							For example, to filter by a resource type, use: $filter=resourceType eq 'Microsoft.Network/virtualNetworks'
+
+							You can use substringof(value, property) in the filter. The properties you can use for substring are: name and resourceGroup.
+
+							For example, to get all resources with 'demo' anywhere in the name, use: $filter=substringof('demo', name)
+
+							You can link more than one substringof together by adding and/or operators.
+
+							You can filter by tag names and values. For example, to filter for a tag name and value, use $filter=tagName eq 'tag1' and tagValue eq 'Value1'. 
+							When you filter by a tag name and value, the tags for each resource are not returned in the results.
+
+							You can use some properties together when filtering. The combinations you can use are: substringof and/or resourceType, plan and plan/publisher 
+							and plan/name, identity and identity/principalId.
+
+$top		query			integerint32	The number of results to return. If null is passed, returns all resource groups.
+
+
+
+Responses
+RESPONSES
+Name			Type				Description
+200 OK			ResourceListResult		OK - Returns an array of resources.
+
+
+
+Other Status Codes	CloudError			Error response describing why the operation failed.
+
+
+	
